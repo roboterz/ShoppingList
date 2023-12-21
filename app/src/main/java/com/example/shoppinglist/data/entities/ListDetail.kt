@@ -2,10 +2,10 @@ package com.example.shoppinglist.data.entities
 
 
 
-data class ListDetial(
+data class ListDetail(
     val id: Long = 0L,
 
-    val cateID: String = "",
+    val cateID: Long = 0L,
 
     val name: String = "",
 

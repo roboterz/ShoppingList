@@ -3,26 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/WaitingListFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.example.shoppinglist.WaitingListFragment"
+        android:id="@+id/WaitingListFragment"
+        android:name="com.example.shoppinglist.ui.WaitingListFragment"
         android:label="@string/shopping_list"
         tools:layout="@layout/fragment_waiting">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_WaitFragment_to_CateFragment"
+            app:destination="@id/CateListFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.example.shoppinglist.CateListFragment"
-        android:label="@string/second_fragment_label"
+        android:id="@+id/CateListFragment"
+        android:name="com.example.shoppinglist.ui.CateListFragment"
+        android:label="@string/categories_list"
         tools:layout="@layout/fragment_cate">
 
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_CateFragment_to_WaitFragment"
+            app:destination="@id/WaitingListFragment" />
     </fragment>
 </navigation>

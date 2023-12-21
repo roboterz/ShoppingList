@@ -9,7 +9,6 @@ import androidx.room.PrimaryKey
 
 data class CateList(
     @PrimaryKey(autoGenerate = true)
-    //@ColumnInfo(name = "ID")
     var cateID: Long = 0L,
 
     var name: String = ""

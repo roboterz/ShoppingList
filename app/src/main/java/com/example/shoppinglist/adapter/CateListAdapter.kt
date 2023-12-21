@@ -10,21 +10,22 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglist.R
+import com.example.shoppinglist.data.entities.CateList
 import com.example.shoppinglist.data.entities.ListDetail
 import kotlin.collections.ArrayList
 
 
-class WaitingListAdapter(
+class CateListAdapter(
     private val onClick: OnClickListener
     )
-    : RecyclerView.Adapter<WaitingListAdapter.ViewHolder>() {
+    : RecyclerView.Adapter<CateListAdapter.ViewHolder>() {
 
     //
-    private var mList: List<ListDetail> = ArrayList()
+    private var mList: List<CateList> = ArrayList()
 
     // interface for passing the onClick event to fragment.
     interface OnClickListener {
-        fun onItemClick(id: Long)
+        fun onItemClick(cateID: Long)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -45,12 +46,12 @@ class WaitingListAdapter(
         // display the custom class
         mList[position].apply {
             holder.tvName.text = name
-            holder.tvNote.text = note
-            holder.checkComplete.isChecked = complete
+            holder.tvNote.visibility = View.GONE
+            holder.checkComplete.visibility = View.GONE
 
             // pass the item click listener to fragment
             holder.aItem.setOnClickListener {
-                onClick.onItemClick(id)
+                onClick.onItemClick(cateID)
             }
         }
 
@@ -59,7 +60,7 @@ class WaitingListAdapter(
 
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setList(list: List<ListDetail>){
+    fun setList(list: List<CateList>){
         mList = list
         notifyDataSetChanged()
     }

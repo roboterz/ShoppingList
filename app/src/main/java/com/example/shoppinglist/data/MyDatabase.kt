@@ -13,7 +13,7 @@ private const val DB_PATH = "databases/shoppinglist.db"
 
 @Database(
     entities = [
-        WaitingList::class, CateList::class ], version = 1, exportSchema = false)
+        WaitingList::class, CateList::class ], version = 2, exportSchema = false)
 @TypeConverters(DateTypeConverter::class)
 abstract class MyDatabase : RoomDatabase() {
     abstract fun waitingList(): WaitingListDao

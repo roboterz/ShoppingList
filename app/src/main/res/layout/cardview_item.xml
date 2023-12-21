@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clickable="true"
+            android:tag="item"
             android:paddingHorizontal="20dp"
             android:paddingVertical="10dp">
 
@@ -30,6 +31,7 @@
                 android:maxWidth="200dp"
                 android:singleLine="true"
                 android:text="name"
+                android:tag="name"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -39,6 +41,7 @@
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="30dp"
                 android:text="note"
+                android:tag="note"
                 android:textSize="13sp"
                 app:layout_constraintEnd_toStartOf="@+id/cb_check"
                 app:layout_constraintStart_toEndOf="@+id/tv_name"
@@ -49,6 +52,7 @@
                 android:id="@+id/cb_check"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:tag="check"
                 app:layout_constraintEnd_toEndOf="parent" />
 
 
