@@ -9,7 +9,7 @@ import com.example.shoppinglist.data.entities.CateList
 class CateListViewModel(application: Application) : AndroidViewModel(application) {
 
 
-    private val myDao = MyDatabase.getDatabase(application).itemList()
+    private val myDao = MyDatabase.getDatabase(application).cateList()
 
 
 
@@ -18,6 +18,12 @@ class CateListViewModel(application: Application) : AndroidViewModel(application
         return myDao.getAll()
     }
 
+    fun addRecord(cateList: CateList){
+        myDao.add(cateList)
+    }
 
+    fun getRecord(cateID: Long): CateList{
+        return myDao.getRecordByID(cateID)
+    }
 }
 

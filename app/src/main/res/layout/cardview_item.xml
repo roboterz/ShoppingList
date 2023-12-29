@@ -33,6 +33,7 @@
                 android:text="name"
                 android:tag="name"
                 android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@id/tv_note"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView

@@ -13,11 +13,11 @@ private const val DB_PATH = "databases/shoppinglist.db"
 
 @Database(
     entities = [
-        WaitingList::class, CateList::class ], version = 2, exportSchema = false)
+        WaitingList::class, CateList::class ], version = 3, exportSchema = false)
 @TypeConverters(DateTypeConverter::class)
 abstract class MyDatabase : RoomDatabase() {
     abstract fun waitingList(): WaitingListDao
-    abstract fun itemList(): CateListDao
+    abstract fun cateList(): CateListDao
 
     companion object {
         // Singleton prevents multiple instances of database opening at the same time

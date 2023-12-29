@@ -3,13 +3,13 @@ package com.example.shoppinglist.data.entities
 
 
 data class ListDetail(
-    val id: Long = 0L,
+    var id: Long = 0L,
 
-    val cateID: Long = 0L,
+    var cateID: Long = 0L,
 
-    val name: String = "",
+    var name: String = "",
 
-    val complete: Boolean = false,
+    var complete: Boolean = false,
 
-    val note: String = ""
+    var note: String = ""
 )
