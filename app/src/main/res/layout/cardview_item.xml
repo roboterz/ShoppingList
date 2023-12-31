@@ -53,6 +53,7 @@
                 android:id="@+id/cb_check"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:clickable="false"
                 android:tag="check"
                 app:layout_constraintEnd_toEndOf="parent" />
 

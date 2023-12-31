@@ -16,6 +16,9 @@ interface WaitingListDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun add(waitingList: WaitingList)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(waitingList: List<WaitingList>)
+
     @Delete
     fun delete(waitingList: WaitingList)
 
@@ -23,6 +26,16 @@ interface WaitingListDao {
     @Transaction
     @Query("SELECT * FROM WaitingList WHERE id = :itemID")
     fun getRecordByID(itemID:Long): WaitingList
+
+    // get a record BY ID
+    @Transaction
+    @Query("""
+            SELECT WaitingList.id, WaitingList.cateID, CateList.name, WaitingList.complete, WaitingList.note 
+            FROM WaitingList, CateList
+            WHERE WaitingList.cateID = CateList.cateID
+                AND WaitingList.id = :itemID
+            """)
+    fun getDetailRecordByID(itemID:Long): ListDetail
 
     @Transaction
     @Query("SELECT * FROM WaitingList")

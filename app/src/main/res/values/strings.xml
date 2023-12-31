@@ -7,10 +7,15 @@
     <string name="next">Next</string>
     <string name="action_add">Add</string>
     <string name="previous">Previous</string>
+
     <string name="msg_confirm">Confirm</string>
     <string name="msg_cancel">Cancel</string>
     <string name="msg_save">Save</string>
+    <string name="msg_delete">Confirm to delete this item.</string>
+
     <string name="title_category">Category:</string>
+    <string name="title_item">Item:</string>
+    <string name="title_prompt">Prompt</string>
 
 
 

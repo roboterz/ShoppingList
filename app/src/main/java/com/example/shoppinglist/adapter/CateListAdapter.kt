@@ -22,10 +22,11 @@ class CateListAdapter(
 
     //
     private var mList: List<CateList> = ArrayList()
+    private var checkable: Boolean = false
 
     // interface for passing the onClick event to fragment.
     interface OnClickListener {
-        fun onItemClick(cateID: Long)
+        fun onItemClick(cateID: Long, checked: Boolean = false)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -47,12 +48,25 @@ class CateListAdapter(
         mList[position].apply {
             holder.tvName.text = name
             holder.tvNote.visibility = View.GONE
-            holder.checkComplete.visibility = View.GONE
 
-            // pass the item click listener to fragment
-            holder.aItem.setOnClickListener {
-                onClick.onItemClick(cateID)
+            if (checkable) {
+                holder.checkComplete.visibility = View.VISIBLE
+                // pass the item click listener to fragment
+                holder.aItem.setOnClickListener {
+                    holder.checkComplete.isChecked = !holder.checkComplete.isChecked
+                    onClick.onItemClick(cateID, holder.checkComplete.isChecked)
+                }
+
+            }else{
+                holder.checkComplete.visibility = View.GONE
+
+                // pass the item click listener to fragment
+                holder.aItem.setOnClickListener {
+                    onClick.onItemClick(cateID)
+                }
             }
+
+
         }
 
 
@@ -60,8 +74,9 @@ class CateListAdapter(
 
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setList(list: List<CateList>){
+    fun setList(list: List<CateList>, mode: Boolean = false){
         mList = list
+        checkable = mode
         notifyDataSetChanged()
     }
 

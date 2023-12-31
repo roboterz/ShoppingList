@@ -8,12 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.shoppinglist.KEY_CATEGORY
+import com.example.shoppinglist.KEY_CATEGORY_CATE_ID
+import com.example.shoppinglist.KEY_CATEGORY_SELECT_MODE
 import com.example.shoppinglist.R
 import com.example.shoppinglist.adapter.CateListAdapter
 import com.example.shoppinglist.adapter.WaitingListAdapter
@@ -34,6 +39,27 @@ class CateListFragment : Fragment() {
     private lateinit var cateListViewModel: CateListViewModel
 
     private var listAdapter: CateListAdapter? = null
+
+    private var editMode = false
+
+    private var selectedList: MutableList<Long> = ArrayList()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+
+        setFragmentResultListener(KEY_CATEGORY){ _, bundle ->
+            editMode = bundle.getBoolean(KEY_CATEGORY_SELECT_MODE)
+
+            if (editMode){
+                //binding.fabCate.foreground = ContextCompat.getDrawable(requireActivity(), R.drawable.baseline_done_24)
+                binding.fabCate.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.baseline_done_24))
+            }
+            //Toast.makeText(context, receivedTransID.toString(),Toast.LENGTH_LONG).show()
+        }
+    }
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,8 +84,20 @@ class CateListFragment : Fragment() {
         listAdapter = this.context?.let {
             CateListAdapter(object : CateListAdapter.OnClickListener {
                 // catch the item click event from adapter
-                override fun onItemClick(cateID: Long) {
-                    showEditWindow(cateID)
+                override fun onItemClick(cateID: Long, checked: Boolean) {
+                    if (editMode) {
+                        if (checked){
+                            // selected
+                            selectedList.add(cateID)
+                        }else{
+                            // select canceled
+                            selectedList.remove(cateID)
+                        }
+
+                    }else{
+                        // normal mode
+                        showEditWindow(cateID)
+                    }
                 }
             })
         }
@@ -68,7 +106,7 @@ class CateListFragment : Fragment() {
 
         // load list with LiveData
         cateListViewModel.getWaitingList().observe(viewLifecycleOwner, Observer { it ->
-            listAdapter?.setList(it)
+            listAdapter?.setList(it, editMode)
         })
 
         /**************************/
@@ -94,10 +132,20 @@ class CateListFragment : Fragment() {
 
         }
 
+
+
         // fab button
+
         val fab: View = view.findViewById(R.id.fabCate)
         fab.setOnClickListener{
-            showEditWindow()
+            if (editMode){
+                // save
+                saveShoppingList(selectedList)
+                // back to last fragment
+                NavHostFragment.findNavController(this).navigateUp()
+            }else{
+                showEditWindow()
+            }
         }
 
     }
@@ -149,5 +197,9 @@ class CateListFragment : Fragment() {
         }
 
         return 0
+    }
+
+    private fun saveShoppingList(cateIDList: List<Long>){
+        cateListViewModel.saveShoppingList(cateIDList)
     }
 }

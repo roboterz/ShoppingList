@@ -24,7 +24,9 @@ class WaitingListAdapter(
 
     // interface for passing the onClick event to fragment.
     interface OnClickListener {
-        fun onItemClick(id: Long)
+        fun onItemClick(id: Long, checked: Boolean)
+
+        fun onItemLongClick(id: Long)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -50,7 +52,13 @@ class WaitingListAdapter(
 
             // pass the item click listener to fragment
             holder.aItem.setOnClickListener {
-                onClick.onItemClick(id)
+                holder.checkComplete.isChecked = ! holder.checkComplete.isChecked
+                onClick.onItemClick(id, holder.checkComplete.isChecked)
+            }
+
+            holder.aItem.setOnLongClickListener {
+                onClick.onItemLongClick(id)
+                true
             }
         }
 
