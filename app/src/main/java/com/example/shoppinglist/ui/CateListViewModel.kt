@@ -37,5 +37,9 @@ class CateListViewModel(application: Application) : AndroidViewModel(application
         myDao.waitingList().insertAll(waitingList)
     }
 
+    fun deleteRecord(cateID: Long){
+        myDao.cateList().delete(CateList(cateID = cateID))
+    }
+
 }
 

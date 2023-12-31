@@ -67,17 +67,19 @@ class WaitingListFragment : Fragment() {
         listAdapter = this.context?.let {
             WaitingListAdapter(object : WaitingListAdapter.OnClickListener {
                 // catch the item click event from adapter
-                override fun onItemClick(id: Long, checked: Boolean) {
-                    // todo
-                    updateRecord(id, checked)
-                    // delete
-                    if (checked) {
-                        deleteRecord(id)
-                    }
+                override fun onItemClick(id: Long) {
+                    // edit note
+                    showEditWindow(id)
                 }
 
-                override fun onItemLongClick(id: Long) {
-                    // todo
+                override fun onItemLongClick(id: Long, name: String) {
+                    // delete
+                    deleteRecord(id, name)
+                }
+
+                override fun onClickBoxClick(id: Long, checked: Boolean) {
+                    // update clickBox
+                    updateRecord(id, checked)
                 }
             })
         }
@@ -128,25 +130,27 @@ class WaitingListFragment : Fragment() {
     }
 
     private fun showEditWindow(id: Long = 0L){
+        if (id <= 0L){
+            return
+        }
+
         val alert = AlertDialog.Builder(context)
         val editText = EditText(activity)
         val titleView = View.inflate(context, R.layout.popup_title, null)
+        val item = waitViewModel.getDetailRecord(id)
 
-
-        titleView.findViewById<TextView>(R.id.tv_popup_title_text).text = getString(R.string.title_item)
+        titleView.findViewById<TextView>(R.id.tv_popup_title_text).text = item.name
 
         // Edit mode
-        if (id > 0L){
-            editText.setText( waitViewModel.getRecord(id).note )
-        }
+        editText.setText( item.note)
 
         alert.setView(editText)
             .setCustomTitle(titleView)
             .setPositiveButton(R.string.msg_save
             ) { _, _ -> //What ever you want to do with the value
-                val waitList = WaitingList()
-                waitList.id = id
-                waitList.note = editText.text.toString().trim()
+
+                var waitList = waitViewModel.getRecord(id)
+                waitList.note =  editText.text.toString().trim()
                 // save
                 saveRecord(waitList)
 
@@ -175,21 +179,24 @@ class WaitingListFragment : Fragment() {
         waitViewModel.insertRecord(waitingList)
     }
 
-    private fun deleteRecord(id: Long) {
+    private fun deleteRecord(id: Long, name: String): Boolean {
 
         val dialogBuilder = AlertDialog.Builder(activity)
 
-        dialogBuilder.setMessage(getString(R.string.msg_delete))
+        var deleteConfirmed = false
+
+        dialogBuilder.setMessage(getString(R.string.msg_delete) + " " + name + " ?")
             .setCancelable(true)
             .setPositiveButton(getString(R.string.msg_confirm)) { _, _ ->
 
                 // delete record
                 waitViewModel.deleteRecord(id)
-
+                deleteConfirmed = true
             }
             .setNegativeButton(getString(R.string.msg_cancel)) { dialog, _ ->
                 // cancel
                 dialog.cancel()
+                deleteConfirmed = false
             }
 
         // set Title Style
@@ -201,5 +208,7 @@ class WaitingListFragment : Fragment() {
         //alert.setIcon(R.drawable.ic_baseline_delete_forever_24)
         alert.setCustomTitle(titleView)
         alert.show()
+
+        return deleteConfirmed
     }
 }

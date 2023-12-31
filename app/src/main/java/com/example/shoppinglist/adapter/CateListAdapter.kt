@@ -27,6 +27,8 @@ class CateListAdapter(
     // interface for passing the onClick event to fragment.
     interface OnClickListener {
         fun onItemClick(cateID: Long, checked: Boolean = false)
+
+        fun onItemLongClick(cateID: Long, name: String)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -63,6 +65,11 @@ class CateListAdapter(
                 // pass the item click listener to fragment
                 holder.aItem.setOnClickListener {
                     onClick.onItemClick(cateID)
+                }
+
+                holder.aItem.setOnLongClickListener {
+                    onClick.onItemLongClick(cateID, name)
+                    true
                 }
             }
 

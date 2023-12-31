@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Space
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.setFragmentResultListener
@@ -98,6 +99,11 @@ class CateListFragment : Fragment() {
                         // normal mode
                         showEditWindow(cateID)
                     }
+                }
+
+                override fun onItemLongClick(cateID: Long, name: String) {
+                    // delete
+                    deleteRecord(cateID, name)
                 }
             })
         }
@@ -201,5 +207,33 @@ class CateListFragment : Fragment() {
 
     private fun saveShoppingList(cateIDList: List<Long>){
         cateListViewModel.saveShoppingList(cateIDList)
+    }
+
+    private fun deleteRecord(cateID: Long, name: String) {
+
+        val dialogBuilder = AlertDialog.Builder(activity)
+
+        dialogBuilder.setMessage(getString(R.string.msg_delete) + " " +  name + " ?")
+            .setCancelable(true)
+            .setPositiveButton(getString(R.string.msg_confirm)) { _, _ ->
+
+                // delete record
+                cateListViewModel.deleteRecord(cateID)
+
+            }
+            .setNegativeButton(getString(R.string.msg_cancel)) { dialog, _ ->
+                // cancel
+                dialog.cancel()
+            }
+
+        // set Title Style
+        val titleView = layoutInflater.inflate(R.layout.popup_title,null)
+        // set Title Text
+        titleView.findViewById<TextView>(R.id.tv_popup_title_text).text = getString(R.string.title_prompt)
+
+        val alert = dialogBuilder.create()
+        //alert.setIcon(R.drawable.ic_baseline_delete_forever_24)
+        alert.setCustomTitle(titleView)
+        alert.show()
     }
 }

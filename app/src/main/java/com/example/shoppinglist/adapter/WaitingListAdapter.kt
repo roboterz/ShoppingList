@@ -24,9 +24,10 @@ class WaitingListAdapter(
 
     // interface for passing the onClick event to fragment.
     interface OnClickListener {
-        fun onItemClick(id: Long, checked: Boolean)
+        fun onItemClick(id: Long)
+        fun onItemLongClick(id: Long, name: String)
 
-        fun onItemLongClick(id: Long)
+        fun onClickBoxClick(id: Long, checked: Boolean)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -48,18 +49,24 @@ class WaitingListAdapter(
         mList[position].apply {
             holder.tvName.text = name
             holder.tvNote.text = note
+            holder.checkComplete.isClickable = true
             holder.checkComplete.isChecked = complete
 
-            // pass the item click listener to fragment
+
             holder.aItem.setOnClickListener {
-                holder.checkComplete.isChecked = ! holder.checkComplete.isChecked
-                onClick.onItemClick(id, holder.checkComplete.isChecked)
+                //holder.checkComplete.isChecked = ! holder.checkComplete.isChecked
+                onClick.onItemClick(id)
             }
 
             holder.aItem.setOnLongClickListener {
-                onClick.onItemLongClick(id)
+                onClick.onItemLongClick(id, name)
                 true
             }
+
+            holder.checkComplete.setOnClickListener {
+                onClick.onClickBoxClick(id, holder.checkComplete.isChecked)
+            }
+
         }
 
 
@@ -96,10 +103,10 @@ class WaitingListAdapter(
         return position
     }
 
-    override fun onViewAttachedToWindow(holder: ViewHolder) {
-        super.onViewAttachedToWindow(holder)
-
-        holder.itemView.clearAnimation()
-        holder.itemView.startAnimation(AnimationUtils.loadAnimation(holder.itemView.context, R.anim.scale_in_scroll))
-    }
+//    override fun onViewAttachedToWindow(holder: ViewHolder) {
+//        super.onViewAttachedToWindow(holder)
+//
+//        holder.itemView.clearAnimation()
+//        holder.itemView.startAnimation(AnimationUtils.loadAnimation(holder.itemView.context, R.anim.scale_in_scroll))
+//    }
 }
