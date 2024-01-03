@@ -11,5 +11,7 @@ data class CateList(
     @PrimaryKey(autoGenerate = true)
     var cateID: Long = 0L,
 
-    var name: String = ""
+    var name: String = "",
+
+    var type: String = ""
 )
