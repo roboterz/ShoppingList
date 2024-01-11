@@ -9,23 +9,18 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.os.bundleOf
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglist.KEY_CATEGORY
-import com.example.shoppinglist.KEY_CATEGORY_CATE_ID
 import com.example.shoppinglist.KEY_CATEGORY_SELECT_MODE
 import com.example.shoppinglist.R
 import com.example.shoppinglist.adapter.WaitingListAdapter
-import com.example.shoppinglist.data.entities.CateList
-import com.example.shoppinglist.data.entities.ListDetail
-import com.example.shoppinglist.data.entities.WaitingList
+import com.example.shoppinglist.data.entities.Category
 import com.example.shoppinglist.databinding.FragmentWaitingBinding
 
 /**
@@ -87,9 +82,9 @@ class WaitingListFragment : Fragment() {
 
 
         // load list with LiveData
-        waitViewModel.getWaitingList().observe(viewLifecycleOwner, Observer { it ->
-            listAdapter?.setList(it)
-        })
+//        waitViewModel.getWaitingList().observe(viewLifecycleOwner, Observer { it ->
+//            listAdapter?.setList(it)
+//        })
 
         /**************************/
 
@@ -103,7 +98,7 @@ class WaitingListFragment : Fragment() {
 
         // categories menu
         binding.toolbarWaitingList.menu.findItem(R.id.action_cate).setOnMenuItemClickListener {
-            findNavController().navigate(R.id.navigation_CateListFragment)
+            findNavController().navigate(R.id.navigation_CateManagerFragment)
             true
         }
 
@@ -119,7 +114,7 @@ class WaitingListFragment : Fragment() {
                 )
             )
             // switch to record fragment
-            view.findNavController().navigate(R.id.navigation_CateListFragment)
+            view.findNavController().navigate(R.id.navigation_CateManagerFragment)
         }
 
     }
@@ -139,7 +134,7 @@ class WaitingListFragment : Fragment() {
         val titleView = View.inflate(context, R.layout.popup_title, null)
         val item = waitViewModel.getDetailRecord(id)
 
-        titleView.findViewById<TextView>(R.id.tv_popup_title_text).text = item.name
+        titleView.findViewById<TextView>(R.id.tv_popup_title_text).text = item.Category_Name
 
         // Edit mode
         editText.setText( item.note)
@@ -167,14 +162,14 @@ class WaitingListFragment : Fragment() {
     }
 
 
-    private fun saveRecord(waitingList: WaitingList){
+    private fun saveRecord(waitingList: Category){
         waitViewModel.insertRecord(waitingList)
     }
 
     private fun updateRecord(id: Long, checked: Boolean){
-        var waitingList = waitViewModel.getRecord(id)
+        val waitingList = waitViewModel.getRecord(id)
 
-        waitingList.complete = checked
+        //waitingList.Category_Completed = checked
 
         waitViewModel.insertRecord(waitingList)
     }

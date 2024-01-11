@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/navigation_WaitingListFragment">
+    app:startDestination="@id/navigation_CateManagerFragment">
 
     <fragment
         android:id="@+id/navigation_WaitingListFragment"
@@ -13,11 +13,11 @@
 
         <action
             android:id="@+id/action_WaitFragment_to_CateFragment"
-            app:destination="@id/navigation_CateListFragment" />
+            app:destination="@id/navigation_CateManagerFragment" />
     </fragment>
     <fragment
-        android:id="@+id/navigation_CateListFragment"
-        android:name="com.example.shoppinglist.ui.CateListFragment"
+        android:id="@+id/navigation_CateManagerFragment"
+        android:name="com.example.shoppinglist.ui.CategoryManagerFragment"
         android:label="@string/categories_list"
         tools:layout="@layout/fragment_cate">
 

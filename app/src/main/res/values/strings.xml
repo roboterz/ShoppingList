@@ -13,6 +13,10 @@
     <string name="msg_save">Save</string>
     <string name="msg_delete">Delete </string>
 
+
+    <string name="msg_category_delete_error">This category cannot be deleted because it is being referenced by other records.</string>
+    <string name="msg_content_category_delete">Confirm to delete </string>
+
     <string name="title_category">Category:</string>
     <string name="title_item">Item:</string>
     <string name="title_prompt">Prompt</string>

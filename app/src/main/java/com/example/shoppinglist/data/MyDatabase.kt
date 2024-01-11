@@ -14,12 +14,11 @@ private const val DB_NAME = "shoppinglist.db"
 private const val DB_PATH = "databases/shoppinglist.db"
 
 @Database(
-    entities = [
-        WaitingList::class, CateList::class ], version = 4, exportSchema = false)
-@TypeConverters(DateTypeConverter::class)
+    entities = [Category::class ], version = 5, exportSchema = false)
+
 abstract class MyDatabase : RoomDatabase() {
-    abstract fun waitingList(): WaitingListDao
-    abstract fun cateList(): CateListDao
+
+    abstract fun category(): CateDao
 
     companion object {
         // Singleton prevents multiple instances of database opening at the same time
@@ -35,16 +34,20 @@ abstract class MyDatabase : RoomDatabase() {
             // upgrade database version from 3 to 4
             val MIGRATION_3_4 = object : Migration(3, 4) {
                 override fun migrate(db: SupportSQLiteDatabase) {
-                    db.execSQL("ALTER TABLE CateList ADD type TEXT NOT NULL DEFAULT ''")
+                    db.execSQL("ALTER TABLE CateList ADD parentID INTEGER NOT NULL DEFAULT 0")
+                    db.execSQL("ALTER TABLE CateList ADD complete BOOLEAN NOT NULL DEFAULT false")
+                    db.execSQL("ALTER TABLE CateList ADD note TEXT NOT NULL DEFAULT ''")
                 }
             }
+
+
 
             synchronized(this){
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     MyDatabase::class.java,
                     DB_NAME
-                ).createFromAsset(DB_PATH).allowMainThreadQueries().addMigrations(MIGRATION_3_4)
+                ).allowMainThreadQueries().addMigrations(MIGRATION_3_4)
                     .build()
                 //.createFromAsset(DB_PATH)
                 //.addMigrations(MIGRATION_3_4)

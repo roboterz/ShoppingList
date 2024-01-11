@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglist.R
-import com.example.shoppinglist.data.entities.ListDetail
+import com.example.shoppinglist.data.entities.Category
 import kotlin.collections.ArrayList
 
 
@@ -20,7 +20,7 @@ class WaitingListAdapter(
     : RecyclerView.Adapter<WaitingListAdapter.ViewHolder>() {
 
     //
-    private var mList: List<ListDetail> = ArrayList()
+    private var mList: List<Category> = ArrayList()
 
     // interface for passing the onClick event to fragment.
     interface OnClickListener {
@@ -47,24 +47,24 @@ class WaitingListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         // display the custom class
         mList[position].apply {
-            holder.tvName.text = name
+            holder.tvName.text = Category_Name
             holder.tvNote.text = note
             holder.checkComplete.isClickable = true
-            holder.checkComplete.isChecked = complete
+            //holder.checkComplete.isChecked = Category_Completed
 
 
             holder.aItem.setOnClickListener {
                 //holder.checkComplete.isChecked = ! holder.checkComplete.isChecked
-                onClick.onItemClick(id)
+                onClick.onItemClick(Category_ID)
             }
 
             holder.aItem.setOnLongClickListener {
-                onClick.onItemLongClick(id, name)
+                onClick.onItemLongClick(Category_ID, Category_Name)
                 true
             }
 
             holder.checkComplete.setOnClickListener {
-                onClick.onClickBoxClick(id, holder.checkComplete.isChecked)
+                onClick.onClickBoxClick(Category_ID, holder.checkComplete.isChecked)
             }
 
         }
@@ -74,7 +74,7 @@ class WaitingListAdapter(
 
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setList(list: List<ListDetail>){
+    fun setList(list: List<Category>){
         mList = list
         notifyDataSetChanged()
     }

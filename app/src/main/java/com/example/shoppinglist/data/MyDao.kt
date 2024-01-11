@@ -4,69 +4,48 @@ package com.example.shoppinglist.data
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.room.Transaction
-import com.example.shoppinglist.data.entities.CateList
-import com.example.shoppinglist.data.entities.ListDetail
-import com.example.shoppinglist.data.entities.WaitingList
+import com.example.shoppinglist.data.entities.Category
 import java.util.*
 
 
 
 @Dao
-interface WaitingListDao {
+interface CateDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun add(waitingList: WaitingList)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(waitingList: List<WaitingList>)
+    fun add(category: Category)
 
     @Delete
-    fun delete(waitingList: WaitingList)
+    fun delete(category: Category)
 
-    // get a record BY ID
-    @Transaction
-    @Query("SELECT * FROM WaitingList WHERE id = :itemID")
-    fun getRecordByID(itemID:Long): WaitingList
-
-    // get a record BY ID
-    @Transaction
-    @Query("""
-            SELECT WaitingList.id, WaitingList.cateID, CateList.name, WaitingList.complete, WaitingList.note 
-            FROM WaitingList, CateList
-            WHERE WaitingList.cateID = CateList.cateID
-                AND WaitingList.id = :itemID
-            """)
-    fun getDetailRecordByID(itemID:Long): ListDetail
-
-    @Transaction
-    @Query("SELECT * FROM WaitingList")
-    fun getAll(): List<WaitingList>
-
-    @Transaction
-    @Query("""
-            SELECT WaitingList.id, WaitingList.cateID, CateList.name, WaitingList.complete, WaitingList.note
-            FROM WaitingList, CateList
-            WHERE WaitingList.cateID = CateList.cateID
-            ORDER BY CateList.name
-            """)
-    fun getWaitingList(): LiveData<List<ListDetail>>
-}
-
-
-
-@Dao
-interface CateListDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun add(cateList: CateList)
-
-    @Delete
-    fun delete(cateList: CateList)
+    fun insert(vararg category: List<Category>)
 
     // get a record BY ID
     @Transaction
-    @Query("SELECT * FROM CateList WHERE cateID = :itemID")
-    fun getRecordByID(itemID:Long): CateList
+    @Query("SELECT * FROM Category WHERE Category_ID = :cateID")
+    fun getRecordByID(cateID:Long): Category
 
     @Transaction
-    @Query("SELECT * FROM CateList")
-    fun getAll(): LiveData<List<CateList>>
+    @Query("SELECT * FROM Category")
+    fun getAll(): List<Category>
+
+    @Transaction
+    @Query("SELECT * FROM Category WHERE Category_ParentID = 0")
+    fun getMainCategories(): List<Category>
+
+    @Transaction
+    @Query("SELECT * FROM Category WHERE Category_ParentID = :parentID ")
+    fun getSubCategories(parentID: Long): List<Category>
+
+    @Transaction
+    @Query("SELECT * FROM Category WHERE Category_Completed > 0")
+    fun getShoppingList(): List<Category>
+
+    @Transaction
+    @Query("SELECT * FROM Category WHERE Category_Completed = :status")
+    fun getShoppingListByStatus(status: Int): List<Category>
+
+    @Transaction
+    @Query("SELECT COUNT() FROM Category WHERE Category_ParentID = :parentID")
+    fun getSizeOfSubCategory(parentID: Long): Int
 }

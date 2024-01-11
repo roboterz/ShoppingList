@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.CateListFragment">
+    tools:context=".ui.WaitingListFragment">
 
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -27,22 +27,8 @@
 
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_CateList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+        <include layout="@layout/item_list" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabCate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="40dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/baseline_add_24"
-            tools:ignore="MissingConstraints" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
