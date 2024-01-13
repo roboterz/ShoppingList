@@ -3,8 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/navigation_CateManagerFragment">
+    app:startDestination="@id/navigation_ShoppingListFragment">
 
+    <fragment
+        android:id="@+id/navigation_ShoppingListFragment"
+        android:name="com.example.shoppinglist.ui.ShoppingListFragment"
+        android:label="@string/shopping_list"
+        tools:layout="@layout/fragment_shopping">
+
+        <action
+            android:id="@+id/action_ShoppingFragment_to_CateFragment"
+            app:destination="@id/navigation_CateManagerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_WaitingListFragment"
         android:name="com.example.shoppinglist.ui.WaitingListFragment"
@@ -19,10 +29,10 @@
         android:id="@+id/navigation_CateManagerFragment"
         android:name="com.example.shoppinglist.ui.CategoryManagerFragment"
         android:label="@string/categories_list"
-        tools:layout="@layout/fragment_cate">
+        tools:layout="@layout/fragment_category_manage">
 
         <action
-            android:id="@+id/action_CateFragment_to_WaitFragment"
-            app:destination="@id/navigation_WaitingListFragment" />
+            android:id="@+id/action_CateFragment_to_ShoppingFragment"
+            app:destination="@id/navigation_ShoppingListFragment" />
     </fragment>
 </navigation>
