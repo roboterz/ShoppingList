@@ -4,6 +4,7 @@
     <!-- Strings used for fragments for navigation -->
     <string name="shopping_list">Shopping List</string>
     <string name="categories_list">Categories</string>
+    <string name="clear">Clear</string>
     <string name="next">Next</string>
     <string name="action_add">Add</string>
     <string name="previous">Previous</string>
