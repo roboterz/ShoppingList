@@ -1,9 +1,7 @@
 package com.example.shoppinglist.ui
 
 import android.app.Application
-import android.content.Context
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import com.example.shoppinglist.data.MyDatabase
 import com.example.shoppinglist.data.entities.Category
 
@@ -18,17 +16,17 @@ class CategoryManagerViewModel(application: Application) : AndroidViewModel(appl
 
     private val myDao = MyDatabase.getDatabase(application).category()
 
-    private var categoryList: MutableList<Category> = ArrayList()
+    private var categoryList: List<Category> = ArrayList()
 
 
     fun loadCategory(){
-        categoryList = myDao.getAll().toMutableList()
+        categoryList = myDao.getAll()
 
     }
 
     fun getMainCategoryList(selectMode: Boolean): List<Category>{
 
-        var mainCategory : MutableList<Category> = ArrayList()
+        val mainCategory : MutableList<Category> = ArrayList()
 
         // return Main Category
         for (i in categoryList.indices){
@@ -51,10 +49,10 @@ class CategoryManagerViewModel(application: Application) : AndroidViewModel(appl
         return mainCategory.toList()
     }
 
-    fun getSubCategoryList(parentID: Long,  selectMode: Boolean): List<Category>{
 
-        var subCategory: MutableList<Category> = ArrayList()
+    fun getSubCategoryList(parentID: Long): List<Category>{
 
+        val subCategory: MutableList<Category> = ArrayList()
 
         // return Sub Category
         for (i in categoryList.indices){
@@ -77,6 +75,7 @@ class CategoryManagerViewModel(application: Application) : AndroidViewModel(appl
         return subCategory.toList()
     }
 
+
     fun getCategory(cateID: Long): Category{
         return myDao.getRecordByID(cateID)
     }
@@ -87,7 +86,7 @@ class CategoryManagerViewModel(application: Application) : AndroidViewModel(appl
 
 
     private fun insertCategory(category: List<Category>){
-        myDao.insert(category)
+        myDao.insertAll(category)
     }
 
 
@@ -104,20 +103,25 @@ class CategoryManagerViewModel(application: Application) : AndroidViewModel(appl
 
         for (i in categoryList.indices){
             if (categoryList[i].Category_Completed == 1){
-                categoryList[i].Category_Completed = 2
-                cateList.add(categoryList[i])
+                val cate = categoryList[i]
+                cate.Category_Completed = 2
+                cateList.add(cate)
             }
         }
 
+
         // save
-        insertCategory(cateList)
+        insertCategory(cateList.toList())
     }
 
-    fun saveCheckItem(cateID: Long){
-        val cate = categoryList.first() { it.Category_ID == cateID }
-        when (cate.Category_Completed){
-            0 -> cate.Category_Completed = 1
-            1 -> cate.Category_Completed = 0
+    fun saveCheckItem(cateID: Long, checked: Boolean){
+
+        val idx = categoryList.indexOfFirst { it.Category_ID == cateID }
+
+        if (checked){
+            categoryList[idx].Category_Completed = 1
+        }else{
+            categoryList[idx].Category_Completed = 0
         }
     }
 
