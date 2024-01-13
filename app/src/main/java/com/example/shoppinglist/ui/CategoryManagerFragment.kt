@@ -62,7 +62,11 @@ class CategoryManagerFragment: Fragment() {
                 //binding.fabCate.visibility = View.VISIBLE
                 view?.findViewById<FloatingActionButton>(R.id.fabCate)?.visibility  = View.VISIBLE
                 //binding.fabCate.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.baseline_done_24))
-
+//                view?.findViewById<FloatingActionButton>(R.id.fabCate)?.setOnClickListener {
+//                    categoryManagerViewModel.saveShoppingList()
+//                    // back to last fragment
+//                    NavHostFragment.findNavController(this).navigateUp()
+//                }
             }
             //Toast.makeText(context, receivedTransID.toString(),Toast.LENGTH_LONG).show()
         }
@@ -86,6 +90,7 @@ class CategoryManagerFragment: Fragment() {
     }
 
 
+    @SuppressLint("CutPasteId")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -94,8 +99,9 @@ class CategoryManagerFragment: Fragment() {
         // choose items to show
         //toolbar_category.menu.findItem(R.id.action_edit).isVisible = true
 
-//        // toolbar
-//        binding.toolbarCateList.menu.findItem(R.id.action_waiting).isVisible = true
+        // toolbar
+        binding.toolbarCateList.menu.findItem(R.id.action_shopping).isVisible = true
+
         // click the navigation Icon in the left side of toolbar
         binding.toolbarCateList.setNavigationOnClickListener{
             // call back button event to switch to previous fragment
@@ -103,7 +109,7 @@ class CategoryManagerFragment: Fragment() {
         }
 
         // shopping list menu
-        binding.toolbarCateList.menu.findItem(R.id.action_waiting).setOnMenuItemClickListener {
+        binding.toolbarCateList.menu.findItem(R.id.action_shopping).setOnMenuItemClickListener {
             //findNavController().navigate(R.id.navigation_WaitingListFragment)
 
             // back to last fragment
@@ -117,14 +123,12 @@ class CategoryManagerFragment: Fragment() {
 
 
         // fab button
-        if (selectMode) {
-            val fab: View = view.findViewById(R.id.fabCate)
-            fab.setOnClickListener {
-                categoryManagerViewModel.saveShoppingList()
-                // back to last fragment
-                NavHostFragment.findNavController(this).navigateUp()
-            }
+        view.findViewById<FloatingActionButton>(R.id.fabCate).setOnClickListener {
+            categoryManagerViewModel.saveShoppingList()
+            // back to last fragment
+            NavHostFragment.findNavController(this).navigateUp()
         }
+
 
         // Load data
         categoryManagerViewModel.loadCategory()
@@ -175,7 +179,8 @@ class CategoryManagerFragment: Fragment() {
                                 manageCategory(ADD_CATEGORY, cateID, categoryManagerViewModel.currentActiveMainCategory)
                             }else {
                                 if (selectMode) {
-                                    categoryManagerViewModel.saveCheckItem(cateID)
+                                    categoryManagerViewModel.saveCheckItem(cateID, checkBox)
+                                    //Toast.makeText(context, "sdfdsfdsfdfdafdfd1111111",Toast.LENGTH_LONG).show()
                                 }else
                                     // edit sub category
                                     manageCategory(EDIT_CATEGORY, cateID, parentID)
@@ -259,7 +264,7 @@ class CategoryManagerFragment: Fragment() {
             // show sub category
         Thread {
             this.activity?.runOnUiThread {
-                subCategoryAdapter?.setList(categoryManagerViewModel.getSubCategoryList(parentID, selectMode), selectMode)
+                subCategoryAdapter?.setList(categoryManagerViewModel.getSubCategoryList(parentID), selectMode)
             }
         }.start()
 
@@ -352,7 +357,7 @@ class CategoryManagerFragment: Fragment() {
                         }else{
                             categoryManagerViewModel.deleteCategory(Category(Category_ID = cateID))
                             refreshMainCategory(true)
-                            refreshSubCategory(nextRowID)
+                            refreshSubCategory(0L)
                         }
 
                     }else{
@@ -389,7 +394,7 @@ class CategoryManagerFragment: Fragment() {
 
     // refresh subCategory
     private fun refreshSubCategory(parentID: Long){
-        subCategoryAdapter?.setList(categoryManagerViewModel.getSubCategoryList(parentID, selectMode))
+        subCategoryAdapter?.setList(categoryManagerViewModel.getSubCategoryList(parentID), selectMode)
     }
 
     // refresh MainCategory
