@@ -5,7 +5,6 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.shoppinglist.data.entities.*
@@ -47,8 +46,7 @@ abstract class MyDatabase : RoomDatabase() {
                     context.applicationContext,
                     MyDatabase::class.java,
                     DB_NAME
-                ).allowMainThreadQueries().addMigrations(MIGRATION_3_4)
-                    .build()
+                ).allowMainThreadQueries().build()
                 //.createFromAsset(DB_PATH)
                 //.addMigrations(MIGRATION_3_4)
 

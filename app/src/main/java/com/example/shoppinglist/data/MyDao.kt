@@ -18,7 +18,7 @@ interface CateDao{
     fun delete(category: Category)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(vararg category: List<Category>)
+    fun insert(category: List<Category>)
 
     // get a record BY ID
     @Transaction

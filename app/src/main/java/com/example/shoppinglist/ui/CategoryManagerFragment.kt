@@ -58,17 +58,9 @@ class CategoryManagerFragment: Fragment() {
             selectMode = bundle.getBoolean(KEY_CATEGORY_SELECT_MODE)
 
             if (selectMode){
-
                 //binding.fabCate.visibility = View.VISIBLE
                 view?.findViewById<FloatingActionButton>(R.id.fabCate)?.visibility  = View.VISIBLE
-                //binding.fabCate.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.baseline_done_24))
-//                view?.findViewById<FloatingActionButton>(R.id.fabCate)?.setOnClickListener {
-//                    categoryManagerViewModel.saveShoppingList()
-//                    // back to last fragment
-//                    NavHostFragment.findNavController(this).navigateUp()
-//                }
             }
-            //Toast.makeText(context, receivedTransID.toString(),Toast.LENGTH_LONG).show()
         }
 
 
@@ -116,7 +108,6 @@ class CategoryManagerFragment: Fragment() {
             NavHostFragment.findNavController(this).navigateUp()
 
             true
-
         }
         //---------------------------tool bar--------------------------------
 
@@ -177,13 +168,15 @@ class CategoryManagerFragment: Fragment() {
                         override fun onItemClick(cateID: Long, parentID: Long, checkBox: Boolean) {
                             if (cateID == 0L){
                                 manageCategory(ADD_CATEGORY, cateID, categoryManagerViewModel.currentActiveMainCategory)
+                                refreshSubCategory(parentID)
                             }else {
                                 if (selectMode) {
                                     categoryManagerViewModel.saveCheckItem(cateID, checkBox)
-                                    //Toast.makeText(context, "sdfdsfdsfdfdafdfd1111111",Toast.LENGTH_LONG).show()
+
                                 }else
                                     // edit sub category
                                     manageCategory(EDIT_CATEGORY, cateID, parentID)
+                                    showSubCategoryItems(parentID)
                                 }
                             }
 
@@ -218,25 +211,9 @@ class CategoryManagerFragment: Fragment() {
             }
         }.start()
 
-        // Sub Category Adapter
-//        Thread {
-//            this.activity?.runOnUiThread {
-//                subCategoryAdapter?.setList(categoryManagerViewModel.getSubCategoryList(categoryManagerViewModel.currentActiveMainCategory, selectMode))
-//            }
-//        }.start()
 
         showSubCategoryItems(categoryManagerViewModel.currentActiveMainCategory)
 
-
-//        // show title/*/**/*/
-//        when (transactionTypeID){
-//            TRANSACTION_TYPE_EXPENSE -> {
-//                toolbar_category.setTitle(if (cateMode == EDIT_MODE) R.string.nav_title_category_expense_manage else R.string.nav_title_category_expense)
-//            }
-//            TRANSACTION_TYPE_INCOME -> {
-//                toolbar_category.setTitle(if (cateMode == EDIT_MODE) R.string.nav_title_category_income_manage else R.string.nav_title_category_income)
-//            }
-//        }
     }
 
     override fun onDestroyView() {
@@ -257,21 +234,14 @@ class CategoryManagerFragment: Fragment() {
 
     private fun showSubCategoryItems(parentID: Long) {
 
-        //if (categoryManagerViewModel.currentActiveMainCategory != parentID){
-            // main category item click
-            //mainCategoryAdapter?.setList(categoryManagerViewModel.mainCategory)
-            //binding.recyclerviewCategorySub.adapter = mainCategoryAdapter
-            // show sub category
         Thread {
             this.activity?.runOnUiThread {
                 subCategoryAdapter?.setList(categoryManagerViewModel.getSubCategoryList(parentID), selectMode)
             }
         }.start()
 
-
         categoryManagerViewModel.currentActiveMainCategory = parentID
 
-        //}
     }
 
 
@@ -303,6 +273,7 @@ class CategoryManagerFragment: Fragment() {
                         categoryManagerViewModel.addCategory(cate)
                         // refresh
                         refreshMainCategory()
+                        refreshSubCategory(categoryManagerViewModel.currentActiveMainCategory)
                     }
                     //edit category
                     EDIT_CATEGORY -> {
@@ -312,6 +283,7 @@ class CategoryManagerFragment: Fragment() {
                         categoryManagerViewModel.addCategory(cate)
                         // refresh
                         refreshMainCategory()
+                        refreshSubCategory(categoryManagerViewModel.currentActiveMainCategory)
                     }
 
                 }
@@ -394,6 +366,7 @@ class CategoryManagerFragment: Fragment() {
 
     // refresh subCategory
     private fun refreshSubCategory(parentID: Long){
+        categoryManagerViewModel.loadCategory()
         subCategoryAdapter?.setList(categoryManagerViewModel.getSubCategoryList(parentID), selectMode)
     }
 

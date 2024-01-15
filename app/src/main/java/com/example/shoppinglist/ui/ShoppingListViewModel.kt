@@ -80,7 +80,7 @@ class ShoppingListViewModel(application: Application) : AndroidViewModel(applica
 
 
     private fun insertCategory(category: List<Category>){
-        myDao.insertAll(category)
+        myDao.insert(category)
     }
 
 
@@ -98,6 +98,20 @@ class ShoppingListViewModel(application: Application) : AndroidViewModel(applica
         for (i in categoryList.indices){
             if (categoryList[i].Category_Completed == 1){
                 categoryList[i].Category_Completed = 2
+                cateList.add(categoryList[i])
+            }
+        }
+
+        // save
+        insertCategory(cateList)
+    }
+
+    fun clearCompletedList(){
+        val cateList: MutableList<Category> = ArrayList()
+
+        for (i in categoryList.indices){
+            if (categoryList[i].Category_Completed == 3){
+                categoryList[i].Category_Completed = 0
                 cateList.add(categoryList[i])
             }
         }

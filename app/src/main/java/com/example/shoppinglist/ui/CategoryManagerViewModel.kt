@@ -86,7 +86,7 @@ class CategoryManagerViewModel(application: Application) : AndroidViewModel(appl
 
 
     private fun insertCategory(category: List<Category>){
-        myDao.insertAll(category)
+        myDao.insert(category)
     }
 
 
@@ -103,9 +103,8 @@ class CategoryManagerViewModel(application: Application) : AndroidViewModel(appl
 
         for (i in categoryList.indices){
             if (categoryList[i].Category_Completed == 1){
-                val cate = categoryList[i]
-                cate.Category_Completed = 2
-                cateList.add(cate)
+                categoryList[i].Category_Completed = 2
+                cateList.add(categoryList[i])
             }
         }
 

@@ -75,9 +75,6 @@ class ShoppingListFragment: Fragment() {
         view.findViewById<FloatingActionButton>(R.id.fabCate)?.visibility  = View.VISIBLE
 
         val fab: View = view.findViewById(R.id.fabShopping)
-        // todo change fab icon
-        fab.setBackgroundResource(R.drawable.baseline_add_24)
-
         fab.setOnClickListener{
             // put data before switch
             this.setFragmentResult(
@@ -103,6 +100,16 @@ class ShoppingListFragment: Fragment() {
 
             true
 
+        }
+
+        // Clear Menu
+        binding.toolbarShoppingList.menu.findItem(R.id.action_clear)
+        binding.toolbarShoppingList.menu.findItem(R.id.action_clear).setOnMenuItemClickListener {
+
+            // clear
+            shoppingListViewModel.clearCompletedList()
+            refreshSubCategory(shoppingListViewModel.currentActiveMainCategory)
+            true
         }
         //---------------------------tool bar--------------------------------
 
@@ -226,21 +233,14 @@ class ShoppingListFragment: Fragment() {
 
     private fun showSubCategoryItems(parentID: Long) {
 
-        //if (categoryManagerViewModel.currentActiveMainCategory != parentID){
-            // main category item click
-            //mainCategoryAdapter?.setList(categoryManagerViewModel.mainCategory)
-            //binding.recyclerviewCategorySub.adapter = mainCategoryAdapter
-            // show sub category
         Thread {
             this.activity?.runOnUiThread {
-                subCategoryAdapter?.setList(shoppingListViewModel.getSubCategoryList(parentID))
+                subCategoryAdapter?.setList(shoppingListViewModel.getSubCategoryList(parentID), true)
             }
         }.start()
 
-
         shoppingListViewModel.currentActiveMainCategory = parentID
 
-        //}
     }
 
 

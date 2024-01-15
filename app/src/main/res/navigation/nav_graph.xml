@@ -15,16 +15,7 @@
             android:id="@+id/action_ShoppingFragment_to_CateFragment"
             app:destination="@id/navigation_CateManagerFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/navigation_WaitingListFragment"
-        android:name="com.example.shoppinglist.ui.WaitingListFragment"
-        android:label="@string/shopping_list"
-        tools:layout="@layout/fragment_waiting">
 
-        <action
-            android:id="@+id/action_WaitFragment_to_CateFragment"
-            app:destination="@id/navigation_CateManagerFragment" />
-    </fragment>
     <fragment
         android:id="@+id/navigation_CateManagerFragment"
         android:name="com.example.shoppinglist.ui.CategoryManagerFragment"

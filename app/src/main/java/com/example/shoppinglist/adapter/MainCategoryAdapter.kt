@@ -54,6 +54,7 @@ class MainCategoryAdapter(
 
             if (Category_Completed == -1){
                 // add New
+                holder.arrow.visibility = View.INVISIBLE
                 holder.mainCategoryName.setTextColor(holder.addButtonTextColor)
                 holder.mainCategoryName.setOnClickListener {
                     onClick.onItemClick(Category_ID,true)
@@ -82,8 +83,14 @@ class MainCategoryAdapter(
                 // long click event
                 holder.mainCategoryName.setOnLongClickListener {
                     if (Category_ID > 0L){
-                        if (position < mainCategory.size - 1)
-                            onClick.onItemLongClick(Category_ID, Category_Name, if (position == 0) mainCategory[1].Category_ID else mainCategory[position-1].Category_ID)
+
+                        if (currentArrow > 0) {
+                            if (currentArrow >= position) {
+                                currentArrow--
+                            }
+                        }
+
+                        onClick.onItemLongClick(Category_ID, Category_Name, mainCategory[currentArrow].Category_ID )
                     }
                     true
                 }
