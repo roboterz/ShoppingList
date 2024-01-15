@@ -62,6 +62,8 @@ class ShoppingListFragment: Fragment() {
         shoppingListViewModel = ViewModelProvider(this)[ShoppingListViewModel::class.java]
         _binding = FragmentShoppingBinding.inflate(inflater, container, false)
 
+        // initialize pointer , cause turn back to this fragment the adapter will reset, viewModel will not.
+        shoppingListViewModel.currentActiveMainCategory = 0L
 
         return binding.root
     }
@@ -194,25 +196,10 @@ class ShoppingListFragment: Fragment() {
             }
         }.start()
 
-        // Sub Category Adapter
-//        Thread {
-//            this.activity?.runOnUiThread {
-//                subCategoryAdapter?.setList(categoryManagerViewModel.getSubCategoryList(categoryManagerViewModel.currentActiveMainCategory, selectMode))
-//            }
-//        }.start()
 
         showSubCategoryItems(shoppingListViewModel.currentActiveMainCategory)
 
 
-//        // show title/*/**/*/
-//        when (transactionTypeID){
-//            TRANSACTION_TYPE_EXPENSE -> {
-//                toolbar_category.setTitle(if (cateMode == EDIT_MODE) R.string.nav_title_category_expense_manage else R.string.nav_title_category_expense)
-//            }
-//            TRANSACTION_TYPE_INCOME -> {
-//                toolbar_category.setTitle(if (cateMode == EDIT_MODE) R.string.nav_title_category_income_manage else R.string.nav_title_category_income)
-//            }
-//        }
     }
 
     override fun onDestroyView() {

@@ -32,8 +32,12 @@ class ShoppingListViewModel(application: Application) : AndroidViewModel(applica
 
         // return Main Category
         for (i in categoryList.indices){
+
             if (categoryList[i].Category_ParentID == 0L){
-                mainCategory.add(categoryList[i])
+
+                if (getSubCategoryList(categoryList[i].Category_ID).isNotEmpty()) {
+                    mainCategory.add(categoryList[i])
+                }
             }
         }
 
