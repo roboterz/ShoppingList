@@ -50,7 +50,11 @@ class MainCategoryAdapter(
         // display the custom class
         mainCategory[position].apply {
 
-            holder.mainCategoryName.text = Category_Name
+            if (countSub > 0) {
+                holder.mainCategoryName.text = "$Category_Name ($countSub)"
+            }else{
+                holder.mainCategoryName.text = Category_Name
+            }
 
             if (Category_Completed == -1){
                 // add New
@@ -61,7 +65,6 @@ class MainCategoryAdapter(
                 }
 
             }else{
-
 
                 //holder.mainCategoryName.setTextColor(holder.itemTextColor)
 

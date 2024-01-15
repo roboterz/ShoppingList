@@ -13,7 +13,7 @@ private const val DB_NAME = "shoppinglist.db"
 private const val DB_PATH = "databases/shoppinglist.db"
 
 @Database(
-    entities = [Category::class ], version = 5, exportSchema = false)
+    entities = [Category::class ], version = 6, exportSchema = false)
 
 abstract class MyDatabase : RoomDatabase() {
 
@@ -31,11 +31,9 @@ abstract class MyDatabase : RoomDatabase() {
             }
 
             // upgrade database version from 3 to 4
-            val MIGRATION_3_4 = object : Migration(3, 4) {
+            val MIGRATION_5_6 = object : Migration(5, 6) {
                 override fun migrate(db: SupportSQLiteDatabase) {
-                    db.execSQL("ALTER TABLE CateList ADD parentID INTEGER NOT NULL DEFAULT 0")
-                    db.execSQL("ALTER TABLE CateList ADD complete BOOLEAN NOT NULL DEFAULT false")
-                    db.execSQL("ALTER TABLE CateList ADD note TEXT NOT NULL DEFAULT ''")
+                    db.execSQL("ALTER TABLE Category ADD countSub INTEGER NOT NULL DEFAULT 0")
                 }
             }
 
@@ -46,7 +44,7 @@ abstract class MyDatabase : RoomDatabase() {
                     context.applicationContext,
                     MyDatabase::class.java,
                     DB_NAME
-                ).allowMainThreadQueries().build()
+                ).allowMainThreadQueries().addMigrations(MIGRATION_5_6).build()
                 //.createFromAsset(DB_PATH)
                 //.addMigrations(MIGRATION_3_4)
 

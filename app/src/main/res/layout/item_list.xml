@@ -14,7 +14,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintWidth_percent="0.334"
+            app:layout_constraintWidth_percent="0.4"
             tools:layout_editor_absoluteY="0dp"
             tools:ignore="RtlSymmetry">
 
@@ -31,7 +31,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintWidth_percent="0.666">
+            app:layout_constraintWidth_percent="0.6">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_category_sub"

@@ -19,5 +19,8 @@ data class Category(
     var Category_Completed: Int = 0,
 
     @ColumnInfo(defaultValue = "")
-    var note: String = ""
+    var note: String = "",
+
+    @ColumnInfo(defaultValue = "0")
+    var countSub: Int = 0
 )

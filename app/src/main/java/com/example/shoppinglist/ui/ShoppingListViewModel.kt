@@ -35,7 +35,8 @@ class ShoppingListViewModel(application: Application) : AndroidViewModel(applica
 
             if (categoryList[i].Category_ParentID == 0L){
 
-                if (getSubCategoryList(categoryList[i].Category_ID).isNotEmpty()) {
+                categoryList[i].countSub = getSubCategoryList(categoryList[i].Category_ID).count()
+                if (categoryList[i].countSub > 0) {
                     mainCategory.add(categoryList[i])
                 }
             }
@@ -43,7 +44,7 @@ class ShoppingListViewModel(application: Application) : AndroidViewModel(applica
 
 
         // selected section
-        mainCategory.add(0, Category(Category_Name = "ALL"))
+        mainCategory.add(0, Category(Category_Name = "ALL", countSub = getSubCategoryList(0L).count() ))
 
 
         // adjust arrow and show sub categories
