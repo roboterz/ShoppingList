@@ -1,4 +1,4 @@
-package com.example.shoppinglist.data.entities
+package com.aerolite.shoppinglist.data.entities
 
 import androidx.room.*
 import java.time.LocalDateTime

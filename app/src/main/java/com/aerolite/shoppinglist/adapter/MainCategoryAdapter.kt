@@ -1,19 +1,17 @@
-package com.example.shoppinglist.adapter
+package com.aerolite.shoppinglist.adapter
 
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.icu.text.Transliterator.Position
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.shoppinglist.R
-import com.example.shoppinglist.data.entities.Category
+import com.aerolite.shoppinglist.R
+import com.aerolite.shoppinglist.data.entities.Category
 import kotlin.collections.ArrayList
 
 

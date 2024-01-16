@@ -5,15 +5,15 @@ plugins {
 }
 
 android {
-    namespace = "com.example.shoppinglist"
+    namespace = "com.aerolite.shoppinglist"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.shoppinglist"
+        applicationId = "com.aerolite.shoppinglist"
         minSdk = 28
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.201"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

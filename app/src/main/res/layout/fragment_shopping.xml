@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.ShoppingListFragment">
+    tools:context="com.aerolite.shoppinglist.ui.ShoppingListFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout

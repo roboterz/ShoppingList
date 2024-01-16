@@ -1,39 +1,30 @@
-package com.example.shoppinglist.ui
+package com.aerolite.shoppinglist.ui
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.Context
 import android.database.sqlite.SQLiteException
 import android.os.Bundle
-import android.service.controls.actions.FloatAction
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
-import androidx.core.content.ContextCompat
-import androidx.core.content.contentValuesOf
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.shoppinglist.adapter.MainCategoryAdapter
-import com.example.shoppinglist.adapter.SubCategoryAdapter
-import com.example.shoppinglist.ADD_CATEGORY
-import com.example.shoppinglist.EDIT_CATEGORY
-import com.example.shoppinglist.KEY_CATEGORY
-import com.example.shoppinglist.KEY_CATEGORY_SELECT_MODE
-import com.example.shoppinglist.R
-import com.example.shoppinglist.data.entities.Category
-import com.example.shoppinglist.databinding.FragmentCategoryManageBinding
+import com.aerolite.shoppinglist.adapter.MainCategoryAdapter
+import com.aerolite.shoppinglist.adapter.SubCategoryAdapter
+import com.aerolite.shoppinglist.ADD_CATEGORY
+import com.aerolite.shoppinglist.EDIT_CATEGORY
+import com.aerolite.shoppinglist.KEY_CATEGORY
+import com.aerolite.shoppinglist.KEY_CATEGORY_SELECT_MODE
+import com.aerolite.shoppinglist.R
+import com.aerolite.shoppinglist.data.entities.Category
+import com.aerolite.shoppinglist.databinding.FragmentCategoryManageBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class CategoryManagerFragment: Fragment() {
@@ -236,7 +227,7 @@ class CategoryManagerFragment: Fragment() {
 
         Thread {
             this.activity?.runOnUiThread {
-                subCategoryAdapter?.setList(categoryManagerViewModel.getSubCategoryList(parentID), selectMode)
+                subCategoryAdapter?.setList(categoryManagerViewModel.getSubCategoryList(parentID, selectMode), selectMode)
             }
         }.start()
 
@@ -367,7 +358,7 @@ class CategoryManagerFragment: Fragment() {
     // refresh subCategory
     private fun refreshSubCategory(parentID: Long){
         categoryManagerViewModel.loadCategory()
-        subCategoryAdapter?.setList(categoryManagerViewModel.getSubCategoryList(parentID), selectMode)
+        subCategoryAdapter?.setList(categoryManagerViewModel.getSubCategoryList(parentID, selectMode), selectMode)
     }
 
     // refresh MainCategory

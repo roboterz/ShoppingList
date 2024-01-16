@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_ShoppingListFragment"
-        android:name="com.example.shoppinglist.ui.ShoppingListFragment"
+        android:name="com.aerolite.shoppinglist.ui.ShoppingListFragment"
         android:label="@string/shopping_list"
         tools:layout="@layout/fragment_shopping">
 
@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/navigation_CateManagerFragment"
-        android:name="com.example.shoppinglist.ui.CategoryManagerFragment"
+        android:name="com.aerolite.shoppinglist.ui.CategoryManagerFragment"
         android:label="@string/categories_list"
         tools:layout="@layout/fragment_category_manage">
 

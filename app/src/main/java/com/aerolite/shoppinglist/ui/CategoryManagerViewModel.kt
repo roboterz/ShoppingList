@@ -1,14 +1,12 @@
-package com.example.shoppinglist.ui
+package com.aerolite.shoppinglist.ui
 
 import android.app.Application
-import android.content.Context
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
-import com.example.shoppinglist.data.MyDatabase
-import com.example.shoppinglist.data.entities.Category
+import com.aerolite.shoppinglist.data.MyDatabase
+import com.aerolite.shoppinglist.data.entities.Category
 
 
-class ShoppingListViewModel(application: Application) : AndroidViewModel(application) {
+class CategoryManagerViewModel(application: Application) : AndroidViewModel(application) {
 
 //    var subCategory: MutableList<Category> = ArrayList()
 //
@@ -26,26 +24,24 @@ class ShoppingListViewModel(application: Application) : AndroidViewModel(applica
 
     }
 
-    fun getMainCategoryList(): List<Category>{
+    fun getMainCategoryList(selectMode: Boolean): List<Category>{
 
         val mainCategory : MutableList<Category> = ArrayList()
 
         // return Main Category
         for (i in categoryList.indices){
-
             if (categoryList[i].Category_ParentID == 0L){
-
-                categoryList[i].countSub = getSubCategoryList(categoryList[i].Category_ID).count()
-                if (categoryList[i].countSub > 0) {
-                    mainCategory.add(categoryList[i])
-                }
+                mainCategory.add(categoryList[i])
             }
         }
 
+        if (selectMode) {
+            // selected section
+            mainCategory.add(0, Category(Category_Name = "SELECTED"))
+        }
 
-        // selected section
-        mainCategory.add(0, Category(Category_Name = "ALL", countSub = getSubCategoryList(0L).count() ))
-
+        // +Add item
+        mainCategory.add(Category(Category_Name = "+ Add", Category_Completed = -1))
 
         // adjust arrow and show sub categories
         if (currentActiveMainCategory == 0L) currentActiveMainCategory = mainCategory[0].Category_ID
@@ -53,29 +49,37 @@ class ShoppingListViewModel(application: Application) : AndroidViewModel(applica
         return mainCategory.toList()
     }
 
-    fun getSubCategoryList(parentID: Long): List<Category>{
+
+    fun getSubCategoryList(parentID: Long, selectMode: Boolean): List<Category>{
 
         val subCategory: MutableList<Category> = ArrayList()
-
 
         // return Sub Category
         for (i in categoryList.indices){
             if (parentID == 0L){
-                if (categoryList[i].Category_Completed >1){
+                if (categoryList[i].Category_Completed == 1){
                     subCategory.add(categoryList[i])
                 }
             }else{
-                if (categoryList[i].Category_ParentID == parentID && categoryList[i].Category_Completed > 1){
-                    subCategory.add(categoryList[i])
+                if (categoryList[i].Category_ParentID == parentID  ){
+                    if ( !(selectMode && (categoryList[i].Category_Completed >1)) ) {
+                        subCategory.add(categoryList[i])
+                    }
                 }
+
             }
         }
 
+        if (parentID > 0L){
+            // add "+Add" item
+            subCategory.add(Category(Category_Name = "+ Add", Category_Completed = -1))
+        }
 
         return subCategory.toList()
     }
 
-    fun getCategory(cateID: Long): Category{
+
+    fun getCategory(cateID: Long): Category {
         return myDao.getRecordByID(cateID)
     }
 
@@ -107,34 +111,20 @@ class ShoppingListViewModel(application: Application) : AndroidViewModel(applica
             }
         }
 
+
         // save
-        insertCategory(cateList)
+        insertCategory(cateList.toList())
     }
 
-    fun clearCompletedList(){
-        val cateList: MutableList<Category> = ArrayList()
+    fun saveCheckItem(cateID: Long, checked: Boolean){
 
-        for (i in categoryList.indices){
-            if (categoryList[i].Category_Completed == 3){
-                categoryList[i].Category_Completed = 0
-                cateList.add(categoryList[i])
-            }
+        val idx = categoryList.indexOfFirst { it.Category_ID == cateID }
+
+        if (checked){
+            categoryList[idx].Category_Completed = 1
+        }else{
+            categoryList[idx].Category_Completed = 0
         }
-
-        // save
-        insertCategory(cateList)
-    }
-
-
-    fun saveCheckItem(cateID: Long){
-        val cate = categoryList.first() { it.Category_ID == cateID }
-        when (cate.Category_Completed){
-            2 -> cate.Category_Completed = 3
-            3 -> cate.Category_Completed = 2
-        }
-
-        // save
-        myDao.add(cate)
     }
 
 }

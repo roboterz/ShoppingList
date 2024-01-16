@@ -1,4 +1,4 @@
-package com.example.shoppinglist
+package com.aerolite.shoppinglist
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -6,8 +6,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import android.view.Menu
-import com.example.shoppinglist.R
-import com.example.shoppinglist.databinding.ActivityMainBinding
+import com.aerolite.shoppinglist.R
+import com.aerolite.shoppinglist.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 

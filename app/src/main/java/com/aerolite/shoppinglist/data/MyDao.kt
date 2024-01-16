@@ -1,12 +1,9 @@
-package com.example.shoppinglist.data
+package com.aerolite.shoppinglist.data
 
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.room.Transaction
-import com.example.shoppinglist.data.entities.Category
-import java.util.*
-
+import com.aerolite.shoppinglist.data.entities.Category
 
 
 @Dao

@@ -1,4 +1,4 @@
-package com.example.shoppinglist.data
+package com.aerolite.shoppinglist.data
 
 
 import android.content.Context
@@ -7,7 +7,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.shoppinglist.data.entities.*
+import com.aerolite.shoppinglist.data.entities.Category
 
 private const val DB_NAME = "shoppinglist.db"
 private const val DB_PATH = "databases/shoppinglist.db"
@@ -44,9 +44,9 @@ abstract class MyDatabase : RoomDatabase() {
                     context.applicationContext,
                     MyDatabase::class.java,
                     DB_NAME
-                ).allowMainThreadQueries().addMigrations(MIGRATION_5_6).build()
+                ).createFromAsset(DB_PATH).allowMainThreadQueries().build()
                 //.createFromAsset(DB_PATH)
-                //.addMigrations(MIGRATION_3_4)
+                //.addMigrations(MIGRATION_5_6)
 
                 INSTANCE = instance
                 return instance

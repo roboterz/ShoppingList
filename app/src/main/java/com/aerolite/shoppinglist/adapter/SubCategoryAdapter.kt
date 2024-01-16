@@ -1,20 +1,17 @@
-package com.example.shoppinglist.adapter
+package com.aerolite.shoppinglist.adapter
 
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.shoppinglist.R
-import com.example.shoppinglist.data.entities.Category
+import com.aerolite.shoppinglist.R
+import com.aerolite.shoppinglist.data.entities.Category
 import kotlin.collections.ArrayList
 
 
@@ -52,12 +49,19 @@ class SubCategoryAdapter(
             // load data
             holder.subCategoryName.text = Category_Name
             if (checkable){
+                // check box
                 holder.subCategoryCheckBox.visibility = View.VISIBLE
                 when (Category_Completed){
-                    0 -> { holder.subCategoryCheckBox.isChecked = false }
-                    1 -> { holder.subCategoryCheckBox.isChecked = true }
-
+                    0,2 -> {
+                        holder.subCategoryCheckBox.isChecked = false
+                    }
+                    1,3 -> {
+                        holder.subCategoryCheckBox.isChecked = true
+                    }
                 }
+
+            }else{
+                holder.subCategoryName.setTextColor(holder.normalTextColor)
             }
 
 
@@ -71,12 +75,29 @@ class SubCategoryAdapter(
                 }
 
             }else{
-                holder.subCategoryName.setTextColor(holder.normalTextColor)
+                if (checkable) {
+                    // text color
+                    when (Category_Completed) {
+                        2 -> holder.subCategoryName.setTextColor(holder.normalTextColor)
+                        3 -> holder.subCategoryName.setTextColor(holder.completedTextColor)
+                        else -> holder.subCategoryName.setTextColor(holder.normalTextColor)
+                    }
+                }
 
                 // click item
                 holder.subCategoryCL.setOnClickListener {
                     if (checkable) {
                         holder.subCategoryCheckBox.isChecked = !holder.subCategoryCheckBox.isChecked
+
+                        // text color
+                        if (Category_Completed > 1){
+                            when (holder.subCategoryCheckBox.isChecked){
+                                true -> holder.subCategoryName.setTextColor(holder.completedTextColor)
+                                false -> holder.subCategoryName.setTextColor(holder.normalTextColor)
+                            }
+                        }else{
+                            holder.subCategoryName.setTextColor(holder.normalTextColor)
+                        }
                     }
                     onClickListener.onItemClick(Category_ID, Category_ParentID, holder.subCategoryCheckBox.isChecked)
                 }
@@ -115,6 +136,7 @@ class SubCategoryAdapter(
 
         val addButtonTextColor = Color.GRAY
         val normalTextColor = Color.WHITE
+        val completedTextColor = Color.GRAY
 
 
     }
