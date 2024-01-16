@@ -159,7 +159,7 @@ class CategoryManagerFragment: Fragment() {
                         override fun onItemClick(cateID: Long, parentID: Long, checkBox: Boolean) {
                             if (cateID == 0L){
                                 manageCategory(ADD_CATEGORY, cateID, categoryManagerViewModel.currentActiveMainCategory)
-                                refreshSubCategory(parentID)
+                                //refreshSubCategory(parentID)
                             }else {
                                 if (selectMode) {
                                     categoryManagerViewModel.saveCheckItem(cateID, checkBox)
@@ -167,7 +167,7 @@ class CategoryManagerFragment: Fragment() {
                                 }else
                                     // edit sub category
                                     manageCategory(EDIT_CATEGORY, cateID, parentID)
-                                    showSubCategoryItems(parentID)
+                                    //showSubCategoryItems(parentID)
                                 }
                             }
 
@@ -239,9 +239,9 @@ class CategoryManagerFragment: Fragment() {
     // add/edit main and sub category------------------
     // todo name must be unique
     private fun manageCategory(type: Int, cateID: Long = 0L, parentID:Long = 0L, name: String = "", nextRowID: Long = 0L) {
-        val alert = AlertDialog.Builder(context)
-        val editText = EditText(context)
-        val titleView = View.inflate(context, R.layout.popup_title, null)
+        val alert = AlertDialog.Builder(activity)
+        val editText = EditText(activity)
+        val titleView = View.inflate(activity, R.layout.popup_title, null)
 
         editText.isSingleLine = true
         editText.setText(name)
@@ -280,10 +280,10 @@ class CategoryManagerFragment: Fragment() {
                 }
 
             }
-            .setNegativeButton(R.string.msg_cancel
-            ) { dialog, _ ->
+            .setNegativeButton(getText(R.string.msg_cancel)) { dialog, _ ->
                 dialog.cancel()
             }
+
 
         // category edit mode with delete button
             if (type == EDIT_CATEGORY) {
