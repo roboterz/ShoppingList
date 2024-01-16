@@ -106,7 +106,7 @@ class ShoppingListViewModel(application: Application) : AndroidViewModel(applica
         }
 
         // save
-        insertCategory(cateList)
+        insertCategory(cateList.toList())
     }
 
     fun clearCompletedList(){
@@ -120,7 +120,7 @@ class ShoppingListViewModel(application: Application) : AndroidViewModel(applica
         }
 
         // save
-        insertCategory(cateList)
+        insertCategory(cateList.toList())
     }
 
 

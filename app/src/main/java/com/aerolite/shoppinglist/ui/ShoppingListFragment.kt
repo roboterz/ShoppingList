@@ -106,6 +106,7 @@ class ShoppingListFragment: Fragment() {
 
             // clear
             shoppingListViewModel.clearCompletedList()
+            refreshMainCategory()
             refreshSubCategory(shoppingListViewModel.currentActiveMainCategory)
             true
         }
@@ -346,7 +347,7 @@ class ShoppingListFragment: Fragment() {
 
     // refresh subCategory
     private fun refreshSubCategory(parentID: Long){
-        subCategoryAdapter?.setList(shoppingListViewModel.getSubCategoryList(parentID))
+        subCategoryAdapter?.setList(shoppingListViewModel.getSubCategoryList(parentID), true)
     }
 
     // refresh MainCategory

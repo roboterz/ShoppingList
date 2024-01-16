@@ -48,21 +48,7 @@ class SubCategoryAdapter(
         subCategory[position].apply {
             // load data
             holder.subCategoryName.text = Category_Name
-            if (checkable){
-                // check box
-                holder.subCategoryCheckBox.visibility = View.VISIBLE
-                when (Category_Completed){
-                    0,2 -> {
-                        holder.subCategoryCheckBox.isChecked = false
-                    }
-                    1,3 -> {
-                        holder.subCategoryCheckBox.isChecked = true
-                    }
-                }
 
-            }else{
-                holder.subCategoryName.setTextColor(holder.normalTextColor)
-            }
 
 
             if (Category_Completed == -1){
@@ -75,13 +61,39 @@ class SubCategoryAdapter(
                 }
 
             }else{
-                if (checkable) {
-                    // text color
-                    when (Category_Completed) {
-                        2 -> holder.subCategoryName.setTextColor(holder.normalTextColor)
-                        3 -> holder.subCategoryName.setTextColor(holder.completedTextColor)
-                        else -> holder.subCategoryName.setTextColor(holder.normalTextColor)
+//                if (checkable) {
+//                    // text color
+//                    when (Category_Completed) {
+//                        2 -> holder.subCategoryName.setTextColor(holder.normalTextColor)
+//                        3 -> holder.subCategoryName.setTextColor(holder.completedTextColor)
+//                        else -> holder.subCategoryName.setTextColor(holder.normalTextColor)
+//                    }
+//                }
+                if (checkable){
+                    // check box
+                    holder.subCategoryCheckBox.visibility = View.VISIBLE
+                    when (Category_Completed){
+                        0 -> {
+                            holder.subCategoryCheckBox.isChecked = false
+                            holder.subCategoryName.setTextColor(holder.normalTextColor)
+                        }
+                        1 -> {
+                            holder.subCategoryCheckBox.isChecked = true
+                            holder.subCategoryName.setTextColor(holder.normalTextColor)
+                        }
+                        2 -> {
+                            holder.subCategoryCheckBox.isChecked = false
+                            holder.subCategoryName.setTextColor(holder.normalTextColor)
+                        }
+                        3 -> {
+                            holder.subCategoryCheckBox.isChecked = true
+                            holder.subCategoryName.setTextColor(holder.completedTextColor)
+                        }
                     }
+
+                }else{
+                    holder.subCategoryCheckBox.visibility = View.INVISIBLE
+                    holder.subCategoryName.setTextColor(holder.normalTextColor)
                 }
 
                 // click item
