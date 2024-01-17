@@ -101,13 +101,11 @@ class ShoppingListFragment: Fragment() {
         }
 
         // Clear Menu
-        binding.toolbarShoppingList.menu.findItem(R.id.action_clear)
         binding.toolbarShoppingList.menu.findItem(R.id.action_clear).setOnMenuItemClickListener {
 
             // clear
-            shoppingListViewModel.clearCompletedList()
-            refreshMainCategory()
-            refreshSubCategory(shoppingListViewModel.currentActiveMainCategory)
+            cleanCompletedItems()
+
             true
         }
         //---------------------------tool bar--------------------------------
@@ -155,7 +153,7 @@ class ShoppingListFragment: Fragment() {
                 subCategoryAdapter = this.context?.let {
                     SubCategoryAdapter(object: SubCategoryAdapter.OnClickListener {
                         // catch the item click event from adapter
-                        override fun onItemClick(cateID: Long, parentID: Long, checkBox: Boolean) {
+                        override fun onItemClick(cateID: Long, parentID: Long, name: String, checkBox: Boolean) {
 
                             shoppingListViewModel.saveCheckItem(cateID)
 
@@ -246,10 +244,11 @@ class ShoppingListFragment: Fragment() {
             .setPositiveButton(R.string.msg_confirm
             ) { _, _ -> //What ever you want to do with the value
 
+                var cate = Category()
+
                 when (type) {
                     //add category
                     ADD_CATEGORY -> {
-                        val cate = Category()
                         cate.Category_ParentID = parentID
                         cate.Category_Name = editText.text.toString().trim()
 
@@ -259,15 +258,16 @@ class ShoppingListFragment: Fragment() {
                     }
                     //edit category
                     EDIT_CATEGORY -> {
-                        val cate = shoppingListViewModel.getCategory(cateID)
+                        cate = shoppingListViewModel.getCategory(cateID)
                         cate.Category_Name = editText.text.toString().trim()
 
-                        shoppingListViewModel.addCategory(cate)
-                        // refresh
-                        refreshMainCategory()
                     }
 
                 }
+
+                shoppingListViewModel.addCategory(cate)
+                // refresh
+                refreshMainCategory()
 
             }
             .setNegativeButton(R.string.msg_cancel
@@ -294,7 +294,7 @@ class ShoppingListFragment: Fragment() {
 
         val cate = shoppingListViewModel.getCategory(cateID)
 
-        dialogBuilder.setMessage(getString(R.string.msg_content_category_delete) + " \"" + cate.Category_Name + "\"")
+        dialogBuilder.setMessage(getString(R.string.msg_content_category_delete) + " " + cate.Category_Name + "?")
             .setCancelable(true)
             .setPositiveButton(getString(R.string.msg_confirm)) { _, _ ->
                 // delete record
@@ -344,6 +344,38 @@ class ShoppingListFragment: Fragment() {
         alert.setCustomTitle(titleView)
         alert.show()
     }
+
+    private fun cleanCompletedItems() {
+
+        val dialogBuilder = AlertDialog.Builder(activity)
+
+        dialogBuilder.setMessage(getString(R.string.msg_confirm_clean) )
+            .setCancelable(true)
+            .setPositiveButton(getString(R.string.msg_confirm)) { _, _ ->
+
+                // clean all completed items
+                shoppingListViewModel.clearCompletedList()
+                // refresh
+                refreshMainCategory()
+                refreshSubCategory(shoppingListViewModel.currentActiveMainCategory)
+
+            }
+            .setNegativeButton(getText(R.string.msg_cancel)) { dialog, _ ->
+                // cancel
+                dialog.cancel()
+            }
+
+        // set Title Style
+        val titleView = layoutInflater.inflate(R.layout.popup_title,null)
+        // set Title Text
+        titleView.findViewById<TextView>(R.id.tv_popup_title_text).text = getText(R.string.title_prompt)
+
+        val alert = dialogBuilder.create()
+        //alert.setIcon(R.drawable.ic_baseline_delete_forever_24)
+        alert.setCustomTitle(titleView)
+        alert.show()
+    }
+
 
     // refresh subCategory
     private fun refreshSubCategory(parentID: Long){

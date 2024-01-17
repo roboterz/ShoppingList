@@ -25,7 +25,7 @@ class SubCategoryAdapter(
 
     // interface for passing the onClick event to fragment.
     interface OnClickListener {
-        fun onItemClick(cateID: Long, parentID: Long, checkBox: Boolean = false)
+        fun onItemClick(cateID: Long, parentID: Long, name: String = "", checkBox: Boolean = false)
         fun onItemLongClick(cateID: Long, name: String)
     }
 
@@ -57,7 +57,7 @@ class SubCategoryAdapter(
 
                 holder.subCategoryName.setTextColor(holder.addButtonTextColor)
                 holder.subCategoryCL.setOnClickListener {
-                    onClickListener.onItemClick(Category_ID, Category_ParentID,true)
+                    onClickListener.onItemClick(Category_ID, Category_ParentID, "", true)
                 }
 
             }else{
@@ -111,7 +111,7 @@ class SubCategoryAdapter(
                             holder.subCategoryName.setTextColor(holder.normalTextColor)
                         }
                     }
-                    onClickListener.onItemClick(Category_ID, Category_ParentID, holder.subCategoryCheckBox.isChecked)
+                    onClickListener.onItemClick(Category_ID, Category_ParentID, Category_Name, holder.subCategoryCheckBox.isChecked)
                 }
 
 

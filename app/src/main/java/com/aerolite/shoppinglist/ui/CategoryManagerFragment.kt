@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Space
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -156,7 +157,7 @@ class CategoryManagerFragment: Fragment() {
                 subCategoryAdapter = this.context?.let {
                     SubCategoryAdapter(object: SubCategoryAdapter.OnClickListener {
                         // catch the item click event from adapter
-                        override fun onItemClick(cateID: Long, parentID: Long, checkBox: Boolean) {
+                        override fun onItemClick(cateID: Long, parentID: Long, name: String, checkBox: Boolean) {
                             if (cateID == 0L){
                                 manageCategory(ADD_CATEGORY, cateID, categoryManagerViewModel.currentActiveMainCategory)
                                 //refreshSubCategory(parentID)
@@ -166,7 +167,7 @@ class CategoryManagerFragment: Fragment() {
 
                                 }else
                                     // edit sub category
-                                    manageCategory(EDIT_CATEGORY, cateID, parentID)
+                                    manageCategory(EDIT_CATEGORY, cateID, parentID, name)
                                     //showSubCategoryItems(parentID)
                                 }
                             }
@@ -254,30 +255,37 @@ class CategoryManagerFragment: Fragment() {
             .setPositiveButton(R.string.msg_confirm
             ) { _, _ -> //What ever you want to do with the value
 
+                var cate = Category()
+
                 when (type) {
                     //add category
                     ADD_CATEGORY -> {
-                        val cate = Category()
                         cate.Category_ParentID = parentID
                         cate.Category_Name = editText.text.toString().trim()
-
-                        categoryManagerViewModel.addCategory(cate)
-                        // refresh
-                        refreshMainCategory()
-                        refreshSubCategory(categoryManagerViewModel.currentActiveMainCategory)
                     }
                     //edit category
                     EDIT_CATEGORY -> {
-                        val cate = categoryManagerViewModel.getCategory(cateID)
+                        cate = categoryManagerViewModel.getCategory(cateID)
                         cate.Category_Name = editText.text.toString().trim()
-
-                        categoryManagerViewModel.addCategory(cate)
-                        // refresh
-                        refreshMainCategory()
-                        refreshSubCategory(categoryManagerViewModel.currentActiveMainCategory)
                     }
-
                 }
+
+                // add
+                if (categoryManagerViewModel.addCategory(cate)){
+                    // refresh
+                    refreshMainCategory()
+                    refreshSubCategory(categoryManagerViewModel.currentActiveMainCategory)
+
+                }else{
+                    // Error
+                    Toast.makeText(
+                        context,
+                        getString(R.string.msg_error) + " " + getString(R.string.msg_name_must_be_unique),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+
 
             }
             .setNegativeButton(getText(R.string.msg_cancel)) { dialog, _ ->
@@ -304,7 +312,7 @@ class CategoryManagerFragment: Fragment() {
 
         val cate = categoryManagerViewModel.getCategory(cateID)
 
-        dialogBuilder.setMessage(getString(R.string.msg_content_category_delete) + " \"" + cate.Category_Name + "\"")
+        dialogBuilder.setMessage(getString(R.string.msg_content_category_delete) + " " + cate.Category_Name + "?")
             .setCancelable(true)
             .setPositiveButton(getString(R.string.msg_confirm)) { _, _ ->
                 // delete record

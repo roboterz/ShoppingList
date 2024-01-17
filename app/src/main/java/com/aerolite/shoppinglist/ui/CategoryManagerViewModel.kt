@@ -83,8 +83,22 @@ class CategoryManagerViewModel(application: Application) : AndroidViewModel(appl
         return myDao.getRecordByID(cateID)
     }
 
-    fun addCategory(mCategory: Category) {
-        myDao.add(mCategory)
+    fun addCategory(mCategory: Category): Boolean {
+
+        var unique = true
+
+        // name must be unique
+        for (i in categoryList.indices){
+            if (categoryList[i].Category_Name == mCategory.Category_Name){
+                unique = false
+            }
+        }
+
+        if (unique) {
+            myDao.add(mCategory)
+        }
+
+        return unique
     }
 
 

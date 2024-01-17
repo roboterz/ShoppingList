@@ -4,18 +4,21 @@
         android:id="@+id/action_clear"
         android:orderInCategory="100"
         android:visible="false"
-        android:title="@string/clear"
-        app:showAsAction="ifRoom" />
+        android:title="@string/clean"
+        android:icon="@drawable/baseline_cleaning_services_24"
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_cate"
-        android:orderInCategory="100"
+        android:orderInCategory="200"
         android:visible="false"
         android:title="@string/categories_list"
-        app:showAsAction="never" />
+        android:icon="@drawable/baseline_category_24"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_shopping"
-        android:orderInCategory="100"
+        android:orderInCategory="300"
         android:visible="false"
         android:title="@string/shopping_list"
-        app:showAsAction="never" />
+        android:icon="@drawable/baseline_checklist_rtl_24"
+        app:showAsAction="ifRoom" />
 </menu>
