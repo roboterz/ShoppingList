@@ -115,6 +115,7 @@ class ShoppingListViewModel(application: Application) : AndroidViewModel(applica
         for (i in categoryList.indices){
             if (categoryList[i].Category_Completed == 3){
                 categoryList[i].Category_Completed = 0
+                categoryList[i].note = ""
                 cateList.add(categoryList[i])
             }
         }

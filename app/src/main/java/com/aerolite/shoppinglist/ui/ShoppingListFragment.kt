@@ -22,6 +22,7 @@ import com.aerolite.shoppinglist.adapter.MainCategoryAdapter
 import com.aerolite.shoppinglist.adapter.SubCategoryAdapter
 import com.aerolite.shoppinglist.ADD_CATEGORY
 import com.aerolite.shoppinglist.EDIT_CATEGORY
+import com.aerolite.shoppinglist.EDIT_NOTE
 import com.aerolite.shoppinglist.KEY_CATEGORY
 import com.aerolite.shoppinglist.KEY_CATEGORY_SELECT_MODE
 import com.aerolite.shoppinglist.R
@@ -163,9 +164,11 @@ class ShoppingListFragment: Fragment() {
                         }
 
                         // long click: delete
-                        override fun onItemLongClick(cateID: Long, name: String) {
+                        override fun onItemLongClick(cateID: Long, str: String) {
                             // delete sub category
-                            deleteCategory(cateID )
+                            //deleteCategory(cateID )
+                            //todo
+                            manageCategory(EDIT_NOTE, cateID, 0L, str)
                         }
 
 
@@ -228,13 +231,13 @@ class ShoppingListFragment: Fragment() {
 
     // add/edit main and sub category------------------
     // todo name must be unique
-    private fun manageCategory(type: Int, cateID: Long = 0L, parentID:Long = 0L, name: String = "", nextRowID: Long = 0L) {
+    private fun manageCategory(type: Int, cateID: Long = 0L, parentID:Long = 0L, str: String = "", nextRowID: Long = 0L) {
         val alert = AlertDialog.Builder(context)
         val editText = EditText(context)
         val titleView = View.inflate(context, R.layout.popup_title, null)
 
         editText.isSingleLine = true
-        editText.setText(name)
+        editText.setText(str)
         //editText.imeOptions = EditorInfo.IME_ACTION_DONE
 
 
@@ -247,27 +250,29 @@ class ShoppingListFragment: Fragment() {
                 var cate = Category()
 
                 when (type) {
-                    //add category
+                    // add category
                     ADD_CATEGORY -> {
                         cate.Category_ParentID = parentID
                         cate.Category_Name = editText.text.toString().trim()
-
-                        shoppingListViewModel.addCategory(cate)
-                        // refresh
-                        refreshMainCategory()
                     }
-                    //edit category
+                    // edit category
                     EDIT_CATEGORY -> {
                         cate = shoppingListViewModel.getCategory(cateID)
                         cate.Category_Name = editText.text.toString().trim()
-
+                    }
+                    // edit note
+                    EDIT_NOTE -> {
+                        cate = shoppingListViewModel.getCategory(cateID)
+                        cate.note = editText.text.toString().trim()
                     }
 
                 }
 
+                // save
                 shoppingListViewModel.addCategory(cate)
                 // refresh
                 refreshMainCategory()
+                refreshSubCategory(shoppingListViewModel.currentActiveMainCategory)
 
             }
             .setNegativeButton(R.string.msg_cancel

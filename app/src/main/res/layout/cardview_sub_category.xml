@@ -13,7 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/dark_gray"
+        android:background="@color/my_dark_gray"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,12 +34,28 @@
                 android:singleLine="true"
                 android:text=""
                 android:textSize="15sp"
-                android:gravity="center|left"
+                android:gravity="center|start"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_sub_category_note"
+                />
+
+            <TextView
+                android:id="@+id/tv_sub_category_note"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:paddingVertical="10dp"
+                android:text=""
+                android:textSize="12sp"
+                android:gravity="start"
+                android:visibility="gone"
+                android:textColor="@color/gray"
+                app:layout_constraintWidth_percent="0.32"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_sub_category_name"
                 app:layout_constraintEnd_toStartOf="@id/cb_check"
-                tools:ignore="MissingConstraints,RtlHardcoded" />
+                />
 
             <CheckBox
                 android:id="@+id/cb_check"

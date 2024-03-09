@@ -26,7 +26,7 @@ class SubCategoryAdapter(
     // interface for passing the onClick event to fragment.
     interface OnClickListener {
         fun onItemClick(cateID: Long, parentID: Long, name: String = "", checkBox: Boolean = false)
-        fun onItemLongClick(cateID: Long, name: String)
+        fun onItemLongClick(cateID: Long, str: String)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -48,18 +48,23 @@ class SubCategoryAdapter(
         subCategory[position].apply {
             // load data
             holder.subCategoryName.text = Category_Name
+            holder.subCategoryNote.text = note
 
 
 
             if (Category_Completed == -1){
-                // add
+                // add button
                 holder.subCategoryCheckBox.visibility = View.INVISIBLE
 
                 holder.subCategoryName.setTextColor(holder.addButtonTextColor)
                 holder.subCategoryCL.setOnClickListener {
                     onClickListener.onItemClick(Category_ID, Category_ParentID, "", true)
                 }
-
+                // long click item
+                holder.subCategoryCL.setOnLongClickListener {
+                    //onClickListener.onItemLongClick(Category_ID, Category_Name)
+                    true
+                }
             }else{
 //                if (checkable) {
 //                    // text color
@@ -84,10 +89,12 @@ class SubCategoryAdapter(
                         2 -> {
                             holder.subCategoryCheckBox.isChecked = false
                             holder.subCategoryName.setTextColor(holder.normalTextColor)
+                            holder.subCategoryNote.visibility = View.VISIBLE
                         }
                         3 -> {
                             holder.subCategoryCheckBox.isChecked = true
                             holder.subCategoryName.setTextColor(holder.completedTextColor)
+                            holder.subCategoryNote.visibility = View.VISIBLE
                         }
                     }
 
@@ -104,8 +111,14 @@ class SubCategoryAdapter(
                         // text color
                         if (Category_Completed > 1){
                             when (holder.subCategoryCheckBox.isChecked){
-                                true -> holder.subCategoryName.setTextColor(holder.completedTextColor)
-                                false -> holder.subCategoryName.setTextColor(holder.normalTextColor)
+                                true -> {
+                                    holder.subCategoryName.setTextColor(holder.completedTextColor)
+                                    holder.subCategoryNote.setTextColor(holder.noteCompletedTextColor)
+                                }
+                                false -> {
+                                    holder.subCategoryName.setTextColor(holder.normalTextColor)
+                                    holder.subCategoryNote.setTextColor(holder.noteNormalTextColor)
+                                }
                             }
                         }else{
                             holder.subCategoryName.setTextColor(holder.normalTextColor)
@@ -117,7 +130,8 @@ class SubCategoryAdapter(
 
                 // long click item
                 holder.subCategoryCL.setOnLongClickListener {
-                    onClickListener.onItemLongClick(Category_ID, Category_Name)
+                    //onClickListener.onItemLongClick(Category_ID, Category_Name)
+                    onClickListener.onItemLongClick(Category_ID, note)
                     true
                 }
 
@@ -145,10 +159,13 @@ class SubCategoryAdapter(
         val subCategoryName: TextView = itemView.findViewById(R.id.tv_sub_category_name)
         val subCategoryCheckBox: CheckBox = itemView.findViewById(R.id.cb_check)
         val subCategoryCL: ConstraintLayout = itemView.findViewById(R.id.cl_sub_category)
+        val subCategoryNote: TextView = itemView.findViewById(R.id.tv_sub_category_note)
 
         val addButtonTextColor = Color.GRAY
         val normalTextColor = Color.WHITE
         val completedTextColor = Color.GRAY
+        val noteCompletedTextColor = Color.DKGRAY
+        val noteNormalTextColor = Color.GRAY
 
 
     }

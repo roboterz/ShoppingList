@@ -173,7 +173,7 @@ class CategoryManagerFragment: Fragment() {
                             }
 
                         // long click: delete
-                        override fun onItemLongClick(cateID: Long, name: String) {
+                        override fun onItemLongClick(cateID: Long, str: String) {
                             if (!selectMode) {
                                 // delete sub category
                                 deleteCategory(cateID )
@@ -333,6 +333,7 @@ class CategoryManagerFragment: Fragment() {
 
                     }else{
                         categoryManagerViewModel.deleteCategory(Category(Category_ID = cateID))
+                        refreshMainCategory(false)
                         refreshSubCategory(cate.Category_ParentID)
                     }
 

@@ -54,6 +54,7 @@ class CategoryManagerViewModel(application: Application) : AndroidViewModel(appl
 
         val subCategory: MutableList<Category> = ArrayList()
 
+
         // return Sub Category
         for (i in categoryList.indices){
             if (parentID == 0L){
